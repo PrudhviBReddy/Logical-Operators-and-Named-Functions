@@ -20,7 +20,7 @@ function Results() {
     let scienceResultRef = useRef();
     let socialResultRef = useRef();
 
-    let CalculateResult = () => {
+    let calculateResult = () => {
         console.log("inside calculateResult");
         let firstName = firstNameInputRef.current.value;
                     let lastName = lastNameInputRef.current.value;
@@ -31,10 +31,18 @@ function Results() {
                     let scienceMarks = Number(scienceInputRef.current.value);
                     let socialMarks = Number(socialInputRef.current.value);
                     let totalMarks = teluguMarks+hindiMarks+englishMarks+mathsMarks+scienceMarks+socialMarks;
+
+                    let result;
+
+                    if(teluguMarks < 35 || hindiMarks < 35 || englishMarks < 35 || mathsMarks < 35 || scienceMarks < 35 || socialMarks < 35){
+                        result = "Failed";
+                    }else{
+                        result = "Passed";
+                    }
                     
                     
                     alert(` ${firstName} ${lastName} Total Marks are ${totalMarks}`);
-                    resultParaRef.current.innerHTML = `${firstName} ${lastName} got total marks are ${totalMarks}`;
+                    resultParaRef.current.innerHTML = `${firstName} ${lastName} ${result} in tenth and got total marks of ${totalMarks}`;
                     console.log(totalMarks);
     };
 
@@ -43,6 +51,34 @@ function Results() {
     useEffect(()=>{
        alert("Welcome to Our Website")
     },[]);
+
+    let firstNameOnFocus = ()=>{
+        console.log("FirstName-onFocus");
+                    firstNameInputRef.current.style.backgroundColor = "lightblue";
+                    firstNameInputRef.current.style.color = "black";
+    };
+    let firstNameOnChange = ()=>{
+        console.log("FirstName-onChange");
+    };
+    let firstNameOnBlur = ()=>{
+        console.log("FirstName-onBlur");
+                    firstNameInputRef.current.style.backgroundColor = "";
+                    firstNameInputRef.current.style.color = "black";
+    };
+
+    let lastNameOnFocus = ()=>{
+        console.log("LastName-onFocus");
+                    lastNameInputRef.current.style.backgroundColor = "lightpink";
+                    lastNameInputRef.current.style.color = "black";
+    };
+    let lastNameOnChange = ()=>{
+        console.log("LastName-onChange");
+    };
+    let lastNameOnBlur = ()=>{
+        console.log("LastName-onBlur");
+        lastNameInputRef.current.style.backgroundColor = "";
+        lastNameInputRef.current.style.color = "black";
+    };
 
     let teluguOnFocus = ()=>{
         console.log("Telugu-onFocus");
@@ -221,17 +257,13 @@ let socialOnBlur = ()=>{
                 <label>First Name</label>
                 <input type="text" ref={firstNameInputRef}
                 onFocus={()=>{
-                    console.log("FirstName-onFocus");
-                    firstNameInputRef.current.style.backgroundColor = "lightblue";
-                    firstNameInputRef.current.style.color = "black";
+                    firstNameOnFocus();
                 }} 
                 onChange={()=>{
-                    console.log("FirstName-onChange");
+                    firstNameOnChange();
                 }} 
                 onBlur={()=>{
-                    console.log("FirstName-onBlur");
-                    firstNameInputRef.current.style.backgroundColor = "";
-                    firstNameInputRef.current.style.color = "black";
+                    firstNameOnBlur();
                 }}></input>
                 <span ref={firstNameResultRef}></span>
             </div>
@@ -239,17 +271,13 @@ let socialOnBlur = ()=>{
                 <label>Last Name</label>
                 <input type="text" ref={lastNameInputRef}
                 onFocus={()=>{
-                    console.log("LastName-onFocus");
-                    lastNameInputRef.current.style.backgroundColor = "lightpink";
-                    lastNameInputRef.current.style.color = "black";
+                    lastNameOnFocus();
                 }} 
                 onChange={()=>{
-                    console.log("LastName-onChange");
+                    lastNameOnChange();
                 }} 
                 onBlur={()=>{
-                    console.log("LastName-onBlur");
-                    lastNameInputRef.current.style.backgroundColor = "";
-                    lastNameInputRef.current.style.color = "black";
+                   lastNameOnBlur();
                 }}></input>
                 <span ref={lastNameResultRef}></span>
             </div>
@@ -342,7 +370,7 @@ let socialOnBlur = ()=>{
             <div>
                 <button type="button" 
                 onClick={()=>{
-                    CalculateResult();
+                    calculateResult();
                 }}>Result</button>
             </div>
             <p ref={resultParaRef}>Please Enter Values and Click Calculate</p>
